@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Francés Limón - Código Secreto</title>
+    <style>
+        :root {
+            --bg-color: #121612;
+            --lime-bright: #96cd39;
+            --lime-dim: #557a18;
+            --text-main: #e2e8f0;
+            --text-muted: #8a99ad;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Georgia', serif;
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+        }
+
+        /* Fondo de partículas / Neblina */
+        #canvas-ambient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        /* Contenedor Principal */
+        .container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        /* Reproductor de Spotify */
+        .audio-box {
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeIn 2s ease forwards;
+            animation-delay: 0.5s;
+        }
+
+        .audio-box iframe {
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* Letras Animadas */
+        .lyrics-container {
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .phrase {
+            position: absolute;
+            font-size: 2rem;
+            font-style: italic;
+            line-height: 1.4;
+            color: var(--text-main);
+            opacity: 0;
+            transform: translateY(20px) translateZ(0);
+            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            text-shadow: 0 0 20px rgba(150, 205, 57, 0.2);
+            width: 100%;
+        }
+
+        .phrase.active {
+            opacity: 1;
+            transform: translateY(0) translateZ(0);
+        }
+
+        .phrase.exit {
+            opacity: 0;
+            transform: translateY(-20px) translateZ(0);
+            filter: blur(4px);
+        }
+
+        .highlight {
+            color: var(--lime-bright);
+            font-weight: bold;
+            text-shadow: 0 0 15px rgba(150, 205, 57, 0.6);
+        }
+
+        /* Pequeño indicador inferior */
+        .footer-note {
+            position: fixed;
+            bottom: 20px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            z-index: 10;
+            font-family: sans-serif;
+            opacity: 0.5;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 600px) {
+            .phrase { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="canvas-ambient"></canvas>
+
+    <div class="container">
+        <!-- Reproductor incrustado de Spotify de Los Enanitos Verdes -->
+        <div class="audio-box">
+            <iframe src="https://open.spotify.com/embed/track/2Z1YgVwYlY2S87X7K2vCeg?utm_source=generator&theme=0" 
+                    width="100%" height="152" frameBorder="0" allowfullscreen="" 
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
+            </iframe>
+        </div>
+
+        <!-- Contenedor donde se irán alternando las frases -->
+        <div class="lyrics-container">
+            <p class="phrase active" id="p0">Dale play a la música...</p>
+            <p class="phrase" id="p1">Guardamos un <span class="highlight">código secreto</span> entre tú y yo...</p>
+            <p class="phrase" id="p2">Un pacto silencioso de <span class="highlight">amores lejanos</span>.</p>
+            <p class="phrase" id="p3">Un hilo invisible sabor a <span class="highlight">Francés Limón</span>.</p>
+            <p class="phrase" id="p4">Donde la distancia se rinde ante los pequeños detalles.</p>
+        </div>
+    </div>
+
+    <div class="footer-note">Un tributo a la complicidad</div>
+
+    <script>
+        // Animación de frases (Lógica de transición)
+        const phrases = document.querySelectorAll('.phrase');
+        let currentIndex = 0;
+
+        function nextPhrase() {
+            let current = phrases[currentIndex];
+            current.classList.remove('active');
+            current.classList.add('exit');
+
+            // Limpiar clase de salida después de la transición
+            setTimeout(() => {
+                current.classList.remove('exit');
+            }, 1200);
+
+            // Siguiente frase
+            currentIndex = (currentIndex + 1) % phrases.length;
+            
+            // Retraso minúsculo para activar la animación de entrada limpia
+            setTimeout(() => {
+                phrases[currentIndex].classList.add('active');
+            }, 100);
+        }
+
+        // Cambia la frase cada 4.5 segundos de forma automática e infinita
+        setInterval(nextPhrase, 4500);
+
+        // --- ANIMACIÓN DEL FONDO (Partículas flotantes estilo cítrico/luciérnaga) ---
+        const canvas = document.getElementById('canvas-ambient');
+        const ctx = canvas.getContext('2d');
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        const particles = [];
+        for (let i = 0; i < 40; i++) {
+            particles.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                radius: Math.random() * 3 + 1,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: (Math.random() - 0.5) * 0.5,
+                alpha: Math.random() * 0.5 + 0.1
+            });
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                // Rebotar en los bordes
+                if (p.x < 0 || p.x > width) p.vx *= -1;
+                if (p.y < 0 || p.y > height) p.vy *= -1;
+
+                // Dibujar partícula con aura verde limón tenue
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(150, 205, 57, ${p.alpha})`;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = '#96cd39';
+                ctx.fill();
+            });
+
+            ctx.shadowBlur = 0; // Reset
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
