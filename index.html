@@ -1,3 +1,4 @@
+HTML
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -31,7 +32,7 @@
             perspective: 1000px;
         }
 
-        /* Fondo de partículas / Neblina */
+        /* Fondo de partículas */
         #canvas-ambient {
             position: fixed;
             top: 0;
@@ -50,19 +51,36 @@
             text-align: center;
             max-width: 800px;
             padding: 20px;
+            width: 100%;
         }
 
-        /* Reproductor de Spotify */
+        /* Contenedor del reproductor de YouTube */
         .audio-box {
             margin-bottom: 40px;
             opacity: 0;
             animation: fadeIn 2s ease forwards;
             animation-delay: 0.5s;
+            display: flex;
+            justify-content: center;
         }
 
-        .audio-box iframe {
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            aspect-ratio: 16 / 9;
             border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
         }
 
         /* Letras Animadas */
@@ -104,7 +122,6 @@
             text-shadow: 0 0 15px rgba(150, 205, 57, 0.6);
         }
 
-        /* Pequeño indicador inferior */
         .footer-note {
             position: fixed;
             bottom: 20px;
@@ -131,15 +148,18 @@
     <canvas id="canvas-ambient"></canvas>
 
     <div class="container">
-        <!-- Reproductor incrustado de Spotify de Los Enanitos Verdes -->
+        <!-- Reproductor Corregido de YouTube (Vídeo Oficial) -->
         <div class="audio-box">
-            <iframe src="https://open.spotify.com/embed/track/2Z1YgVwYlY2S87X7K2vCeg?utm_source=generator&theme=0" 
-                    width="100%" height="152" frameBorder="0" allowfullscreen="" 
-                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
-            </iframe>
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed/jZ_y9wOidcs" 
+                        title="YouTube video player" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen>
+                </iframe>
+            </div>
         </div>
 
-        <!-- Contenedor donde se irán alternando las frases -->
+        <!-- Contenedor de las frases -->
         <div class="lyrics-container">
             <p class="phrase active" id="p0">Dale play a la música...</p>
             <p class="phrase" id="p1">Guardamos un <span class="highlight">código secreto</span> entre tú y yo...</p>
@@ -152,7 +172,7 @@
     <div class="footer-note">Un tributo a la complicidad</div>
 
     <script>
-        // Animación de frases (Lógica de transición)
+        // Animación de frases
         const phrases = document.querySelectorAll('.phrase');
         let currentIndex = 0;
 
@@ -161,24 +181,20 @@
             current.classList.remove('active');
             current.classList.add('exit');
 
-            // Limpiar clase de salida después de la transición
             setTimeout(() => {
                 current.classList.remove('exit');
             }, 1200);
 
-            // Siguiente frase
             currentIndex = (currentIndex + 1) % phrases.length;
             
-            // Retraso minúsculo para activar la animación de entrada limpia
             setTimeout(() => {
                 phrases[currentIndex].classList.add('active');
             }, 100);
         }
 
-        // Cambia la frase cada 4.5 segundos de forma automática e infinita
         setInterval(nextPhrase, 4500);
 
-        // --- ANIMACIÓN DEL FONDO (Partículas flotantes estilo cítrico/luciérnaga) ---
+        // Fondo de partículas
         const canvas = document.getElementById('canvas-ambient');
         const ctx = canvas.getContext('2d');
 
@@ -209,11 +225,9 @@
                 p.x += p.vx;
                 p.y += p.vy;
 
-                // Rebotar en los bordes
                 if (p.x < 0 || p.x > width) p.vx *= -1;
                 if (p.y < 0 || p.y > height) p.vy *= -1;
 
-                // Dibujar partícula con aura verde limón tenue
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
                 ctx.fillStyle = `rgba(150, 205, 57, ${p.alpha})`;
@@ -222,7 +236,7 @@
                 ctx.fill();
             });
 
-            ctx.shadowBlur = 0; // Reset
+            ctx.shadowBlur = 0;
             requestAnimationFrame(animate);
         }
 
