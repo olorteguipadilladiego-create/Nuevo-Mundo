@@ -6,10 +6,10 @@
     <title>Francés Limón - Código Secreto</title>
     <style>
         :root {
-            --bg-color: #121612;
+            --bg-color: #0e120e;
             --lime-bright: #96cd39;
             --text-main: #e2e8f0;
-            --text-muted: #8a99ad;
+            --text-muted: #64748b;
         }
 
         * {
@@ -50,12 +50,18 @@
             width: 100%;
         }
 
-        /* Contenedor del Reproductor de SoundCloud */
+        /* Reproductor de Audio Estilizado */
         .audio-box {
-            margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            border-radius: 12px;
-            overflow: hidden;
+            margin-bottom: 50px;
+        }
+
+        audio {
+            width: 100%;
+            max-width: 340px;
+            outline: none;
+            filter: invert(90%) hue-rotate(65deg); /* Tinte verde limón oscuro */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            border-radius: 30px;
         }
 
         /* Letras Animadas */
@@ -99,7 +105,7 @@
 
         .footer-note {
             position: fixed;
-            bottom: 20px;
+            bottom: 25px;
             font-size: 0.8rem;
             color: var(--text-muted);
             letter-spacing: 2px;
@@ -119,14 +125,15 @@
     <canvas id="canvas-ambient"></canvas>
 
     <div class="container">
-        <!-- Reproductor de SoundCloud - Francés Limón Oficial -->
+        <!-- Reproductor con el archivo de audio REAL de la canción original -->
         <div class="audio-box">
-            <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" 
-                src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/275323985&color=%2396cd39&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false">
-            </iframe>
+            <audio controls>
+                <source src="https://archive.org/download/los-enanitos-verdes-frances-limon/Los%20Enanitos%20Verdes%20-%20Franc%C3%A9s%20Lim%C3%B3n.mp3" type="audio/mpeg">
+                Tu navegador no soporta este elemento de audio.
+            </audio>
         </div>
 
-        <!-- Letra oficial corregida -->
+        <!-- Letra oficial cronológica -->
         <div class="lyrics-container">
             <p class="phrase active">Dale play a Francés Limón...</p>
             <p class="phrase">No me digas que <span class="highlight">es muy tarde</span>...</p>
@@ -140,7 +147,7 @@
     <div class="footer-note">Código Secreto • Enanitos Verdes</div>
 
     <script>
-        // Animación de frases
+        // Animación de las frases
         const phrases = document.querySelectorAll('.phrase');
         let currentIndex = 0;
 
@@ -160,6 +167,7 @@
             }, 100);
         }
 
+        // Cambia la frase cada 4.8 segundos
         setInterval(nextPhrase, 4800);
 
         // Fondo de partículas
