@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Francés Limón v2</title>
+    <title>Francés Limón - Código Secreto</title>
     <style>
         :root {
-            --bg-color: #0b0f0b;
-            --lime-bright: #a2e03b;
-            --text-main: #f1f5f9;
-            --text-muted: #64748b;
+            --bg-color: #121612;
+            --lime-bright: #96cd39;
+            --text-main: #e2e8f0;
+            --text-muted: #8a99ad;
         }
 
         * {
@@ -29,6 +29,7 @@
             align-items: center;
         }
 
+        /* Fondo de partículas flotantes */
         #canvas-ambient {
             position: fixed;
             top: 0;
@@ -37,34 +38,29 @@
             height: 100%;
             z-index: 1;
             pointer-events: none;
-            opacity: 0.35;
+            opacity: 0.4;
         }
 
         .container {
             position: relative;
             z-index: 10;
             text-align: center;
-            max-width: 650px;
-            padding: 30px;
+            max-width: 600px;
+            padding: 20px;
             width: 100%;
         }
 
-        /* Caja de audio limpia y sin marcos de video rotos */
+        /* Contenedor del Reproductor de SoundCloud */
         .audio-box {
-            margin-bottom: 60px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border-radius: 12px;
+            overflow: hidden;
         }
 
-        audio {
-            width: 100%;
-            max-width: 320px;
-            outline: none;
-            filter: invert(90%) hue-rotate(75deg);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
-            border-radius: 30px;
-        }
-
+        /* Letras Animadas */
         .lyrics-container {
-            height: 160px;
+            height: 150px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -75,42 +71,42 @@
             position: absolute;
             font-size: 2.1rem;
             font-style: italic;
-            line-height: 1.5;
+            line-height: 1.4;
             color: var(--text-main);
             opacity: 0;
-            transform: translateY(15px);
-            transition: all 1s ease-in-out;
+            transform: translateY(20px);
+            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
             width: 100%;
         }
 
         .phrase.active {
             opacity: 1;
             transform: translateY(0);
-            text-shadow: 0 0 25px rgba(162, 224, 59, 0.25);
+            text-shadow: 0 0 20px rgba(150, 205, 57, 0.3);
         }
 
         .phrase.exit {
             opacity: 0;
-            transform: translateY(-15px);
+            transform: translateY(-20px);
             filter: blur(4px);
         }
 
         .highlight {
             color: var(--lime-bright);
             font-weight: bold;
-            text-shadow: 0 0 12px rgba(162, 224, 59, 0.5);
+            text-shadow: 0 0 15px rgba(150, 205, 57, 0.6);
         }
 
         .footer-note {
             position: fixed;
-            bottom: 25px;
-            font-size: 0.75rem;
+            bottom: 20px;
+            font-size: 0.8rem;
             color: var(--text-muted);
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             text-transform: uppercase;
             z-index: 10;
             font-family: sans-serif;
-            opacity: 0.6;
+            opacity: 0.5;
         }
 
         @media (max-width: 600px) {
@@ -123,17 +119,16 @@
     <canvas id="canvas-ambient"></canvas>
 
     <div class="container">
-        <!-- Reproductor de Audio Nativo Puro -->
+        <!-- Reproductor de SoundCloud - Francés Limón Oficial -->
         <div class="audio-box">
-            <audio controls>
-                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
-                Tu navegador no soporta audio.
-            </audio>
+            <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" 
+                src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/275323985&color=%2396cd39&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false">
+            </iframe>
         </div>
 
-        <!-- Letra Cronológica Oficial de Francés Limón -->
+        <!-- Letra oficial corregida -->
         <div class="lyrics-container">
-            <p class="phrase active">Dale play al audio de arriba...</p>
+            <p class="phrase active">Dale play a Francés Limón...</p>
             <p class="phrase">No me digas que <span class="highlight">es muy tarde</span>...</p>
             <p class="phrase">No me digas que <span class="highlight">el tiempo pasó</span>.</p>
             <p class="phrase">Guardamos un <span class="highlight">código secreto</span> entre tú y yo...</p>
@@ -145,6 +140,7 @@
     <div class="footer-note">Código Secreto • Enanitos Verdes</div>
 
     <script>
+        // Animación de frases
         const phrases = document.querySelectorAll('.phrase');
         let currentIndex = 0;
 
@@ -155,19 +151,18 @@
 
             setTimeout(() => {
                 current.classList.remove('exit');
-            }, 1000);
+            }, 1200);
 
             currentIndex = (currentIndex + 1) % phrases.length;
             
             setTimeout(() => {
                 phrases[currentIndex].classList.add('active');
-            }, 150);
+            }, 100);
         }
 
-        // Cambia de frase de forma suave cada 5 segundos
-        setInterval(nextPhrase, 5000);
+        setInterval(nextPhrase, 4800);
 
-        // Fondo de partículas flotantes
+        // Fondo de partículas
         const canvas = document.getElementById('canvas-ambient');
         const ctx = canvas.getContext('2d');
 
@@ -180,19 +175,20 @@
         });
 
         const particles = [];
-        for (let i = 0; i < 35; i++) {
+        for (let i = 0; i < 40; i++) {
             particles.push({
                 x: Math.random() * width,
                 y: Math.random() * height,
-                radius: Math.random() * 2.5 + 1,
-                vx: (Math.random() - 0.5) * 0.4,
-                vy: (Math.random() - 0.5) * 0.4,
+                radius: Math.random() * 3 + 1,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: (Math.random() - 0.5) * 0.5,
                 alpha: Math.random() * 0.4 + 0.1
             });
         }
 
         function animate() {
             ctx.clearRect(0, 0, width, height);
+            
             particles.forEach(p => {
                 p.x += p.vx;
                 p.y += p.vy;
@@ -202,14 +198,16 @@
 
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(162, 224, 59, ${p.alpha})`;
-                ctx.shadowBlur = 8;
-                ctx.shadowColor = '#a2e03b';
+                ctx.fillStyle = `rgba(150, 205, 57, ${p.alpha})`;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = '#96cd39';
                 ctx.fill();
             });
+
             ctx.shadowBlur = 0;
             requestAnimationFrame(animate);
         }
+
         animate();
     </script>
 </body>
