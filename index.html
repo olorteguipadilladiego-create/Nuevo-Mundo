@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Francés Limón - Código Secreto</title>
+    <title>Francés Limón v2</title>
     <style>
         :root {
-            --bg-color: #121612;
-            --lime-bright: #96cd39;
-            --lime-dim: #557a18;
-            --text-main: #e2e8f0;
-            --text-muted: #8a99ad;
+            --bg-color: #0b0f0b;
+            --lime-bright: #a2e03b;
+            --text-main: #f1f5f9;
+            --text-muted: #64748b;
         }
 
         * {
@@ -28,10 +27,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            perspective: 1000px;
         }
 
-        /* Fondo de partículas */
         #canvas-ambient {
             position: fixed;
             top: 0;
@@ -40,39 +37,34 @@
             height: 100%;
             z-index: 1;
             pointer-events: none;
-            opacity: 0.4;
+            opacity: 0.35;
         }
 
-        /* Contenedor Principal */
         .container {
             position: relative;
             z-index: 10;
             text-align: center;
-            max-width: 800px;
-            padding: 20px;
+            max-width: 650px;
+            padding: 30px;
             width: 100%;
         }
 
-        /* Reproductor de Audio Minimalista */
+        /* Caja de audio limpia y sin marcos de video rotos */
         .audio-box {
-            margin-bottom: 50px;
-            opacity: 0;
-            animation: fadeIn 2s ease forwards;
-            animation-delay: 0.5s;
+            margin-bottom: 60px;
         }
 
         audio {
             width: 100%;
-            max-width: 400px;
+            max-width: 320px;
             outline: none;
-            filter: invert(90%) hue-rotate(60deg); /* Le da un toque estético verde/oscuro al reproductor nativo */
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            filter: invert(90%) hue-rotate(75deg);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
             border-radius: 30px;
         }
 
-        /* Letras Animadas */
         .lyrics-container {
-            height: 150px;
+            height: 160px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -81,52 +73,48 @@
 
         .phrase {
             position: absolute;
-            font-size: 2.2rem;
+            font-size: 2.1rem;
             font-style: italic;
-            line-height: 1.4;
+            line-height: 1.5;
             color: var(--text-main);
             opacity: 0;
-            transform: translateY(20px) translateZ(0);
-            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-            text-shadow: 0 0 20px rgba(150, 205, 57, 0.2);
+            transform: translateY(15px);
+            transition: all 1s ease-in-out;
             width: 100%;
         }
 
         .phrase.active {
             opacity: 1;
-            transform: translateY(0) translateZ(0);
+            transform: translateY(0);
+            text-shadow: 0 0 25px rgba(162, 224, 59, 0.25);
         }
 
         .phrase.exit {
             opacity: 0;
-            transform: translateY(-20px) translateZ(0);
+            transform: translateY(-15px);
             filter: blur(4px);
         }
 
         .highlight {
             color: var(--lime-bright);
             font-weight: bold;
-            text-shadow: 0 0 15px rgba(150, 205, 57, 0.6);
+            text-shadow: 0 0 12px rgba(162, 224, 59, 0.5);
         }
 
         .footer-note {
             position: fixed;
-            bottom: 20px;
-            font-size: 0.8rem;
+            bottom: 25px;
+            font-size: 0.75rem;
             color: var(--text-muted);
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             text-transform: uppercase;
             z-index: 10;
             font-family: sans-serif;
-            opacity: 0.5;
-        }
-
-        @keyframes fadeIn {
-            to { opacity: 1; }
+            opacity: 0.6;
         }
 
         @media (max-width: 600px) {
-            .phrase { font-size: 1.5rem; }
+            .phrase { font-size: 1.4rem; }
         }
     </style>
 </head>
@@ -135,29 +123,28 @@
     <canvas id="canvas-ambient"></canvas>
 
     <div class="container">
-        <!-- Reproductor de audio directo (Sin bloqueos de YouTube ni Spotify) -->
+        <!-- Reproductor de Audio Nativo Puro -->
         <div class="audio-box">
             <audio controls>
-                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-                Tu navegador no soporta este elemento de audio.
+                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+                Tu navegador no soporta audio.
             </audio>
         </div>
 
-        <!-- Letra ordenada cronológicamente (Francés Limón - Enanitos Verdes) -->
+        <!-- Letra Cronológica Oficial de Francés Limón -->
         <div class="lyrics-container">
-            <p class="phrase active" id="p0">Dale play a la música...</p>
-            <p class="phrase" id="p1">No me digas que <span class="highlight">es muy tarde</span>...</p>
-            <p class="phrase" id="p2">No me digas que <span class="highlight">el tiempo pasó</span>.</p>
-            <p class="phrase" id="p3">Guardamos un <span class="highlight">código secreto</span> entre tú y yo...</p>
-            <p class="phrase" id="p4">Un pacto silencioso de <span class="highlight">amores lejanos</span>.</p>
-            <p class="phrase" id="p5">Un hilo invisible sabor a <span class="highlight">Francés Limón</span>...</p>
+            <p class="phrase active">Dale play al audio de arriba...</p>
+            <p class="phrase">No me digas que <span class="highlight">es muy tarde</span>...</p>
+            <p class="phrase">No me digas que <span class="highlight">el tiempo pasó</span>.</p>
+            <p class="phrase">Guardamos un <span class="highlight">código secreto</span> entre tú y yo...</p>
+            <p class="phrase">Un pacto silencioso de <span class="highlight">amores lejanos</span>.</p>
+            <p class="phrase">Un hilo invisible sabor a <span class="highlight">Francés Limón</span>...</p>
         </div>
     </div>
 
-    <div class="footer-note">Un tributo a la complicidad</div>
+    <div class="footer-note">Código Secreto • Enanitos Verdes</div>
 
     <script>
-        // Animación de frases
         const phrases = document.querySelectorAll('.phrase');
         let currentIndex = 0;
 
@@ -168,18 +155,19 @@
 
             setTimeout(() => {
                 current.classList.remove('exit');
-            }, 1200);
+            }, 1000);
 
             currentIndex = (currentIndex + 1) % phrases.length;
             
             setTimeout(() => {
                 phrases[currentIndex].classList.add('active');
-            }, 100);
+            }, 150);
         }
 
-        setInterval(nextPhrase, 4800);
+        // Cambia de frase de forma suave cada 5 segundos
+        setInterval(nextPhrase, 5000);
 
-        // Fondo de partículas
+        // Fondo de partículas flotantes
         const canvas = document.getElementById('canvas-ambient');
         const ctx = canvas.getContext('2d');
 
@@ -192,20 +180,19 @@
         });
 
         const particles = [];
-        for (let i = 0; i < 40; i++) {
+        for (let i = 0; i < 35; i++) {
             particles.push({
                 x: Math.random() * width,
                 y: Math.random() * height,
-                radius: Math.random() * 3 + 1,
-                vx: (Math.random() - 0.5) * 0.5,
-                vy: (Math.random() - 0.5) * 0.5,
-                alpha: Math.random() * 0.5 + 0.1
+                radius: Math.random() * 2.5 + 1,
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: (Math.random() - 0.5) * 0.4,
+                alpha: Math.random() * 0.4 + 0.1
             });
         }
 
         function animate() {
             ctx.clearRect(0, 0, width, height);
-            
             particles.forEach(p => {
                 p.x += p.vx;
                 p.y += p.vy;
@@ -215,16 +202,14 @@
 
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(150, 205, 57, ${p.alpha})`;
-                ctx.shadowBlur = 10;
-                ctx.shadowColor = '#96cd39';
+                ctx.fillStyle = `rgba(162, 224, 59, ${p.alpha})`;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = '#a2e03b';
                 ctx.fill();
             });
-
             ctx.shadowBlur = 0;
             requestAnimationFrame(animate);
         }
-
         animate();
     </script>
 </body>
