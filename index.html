@@ -6,7 +6,7 @@
     <title>Francés Limón - Código Secreto</title>
     <style>
         :root {
-            --bg-color: #0e120e;
+            --bg-color: #0b0f0b;
             --lime-bright: #96cd39;
             --text-main: #e2e8f0;
             --text-muted: #64748b;
@@ -29,7 +29,6 @@
             align-items: center;
         }
 
-        /* Fondo de partículas flotantes */
         #canvas-ambient {
             position: fixed;
             top: 0;
@@ -50,7 +49,6 @@
             width: 100%;
         }
 
-        /* Reproductor de Audio Estilizado */
         .audio-box {
             margin-bottom: 50px;
         }
@@ -59,12 +57,11 @@
             width: 100%;
             max-width: 340px;
             outline: none;
-            filter: invert(90%) hue-rotate(65deg); /* Tinte verde limón oscuro */
+            filter: invert(90%) hue-rotate(65deg);
             box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             border-radius: 30px;
         }
 
-        /* Letras Animadas */
         .lyrics-container {
             height: 150px;
             display: flex;
@@ -125,15 +122,14 @@
     <canvas id="canvas-ambient"></canvas>
 
     <div class="container">
-        <!-- Reproductor con el archivo de audio REAL de la canción original -->
         <div class="audio-box">
+            <!-- Apunta directo al archivo que vas a subir al lado del index.html -->
             <audio controls>
-                <source src="https://archive.org/download/los-enanitos-verdes-frances-limon/Los%20Enanitos%20Verdes%20-%20Franc%C3%A9s%20Lim%C3%B3n.mp3" type="audio/mpeg">
+                <source src="musica.mp3" type="audio/mpeg">
                 Tu navegador no soporta este elemento de audio.
             </audio>
         </div>
 
-        <!-- Letra oficial cronológica -->
         <div class="lyrics-container">
             <p class="phrase active">Dale play a Francés Limón...</p>
             <p class="phrase">No me digas que <span class="highlight">es muy tarde</span>...</p>
@@ -146,8 +142,7 @@
 
     <div class="footer-note">Código Secreto • Enanitos Verdes</div>
 
-    <script>
-        // Animación de las frases
+    <script {nonce}>
         const phrases = document.querySelectorAll('.phrase');
         let currentIndex = 0;
 
@@ -167,10 +162,8 @@
             }, 100);
         }
 
-        // Cambia la frase cada 4.8 segundos
         setInterval(nextPhrase, 4800);
 
-        // Fondo de partículas
         const canvas = document.getElementById('canvas-ambient');
         const ctx = canvas.getContext('2d');
 
@@ -196,7 +189,6 @@
 
         function animate() {
             ctx.clearRect(0, 0, width, height);
-            
             particles.forEach(p => {
                 p.x += p.vx;
                 p.y += p.vy;
@@ -211,11 +203,9 @@
                 ctx.shadowColor = '#96cd39';
                 ctx.fill();
             });
-
             ctx.shadowBlur = 0;
             requestAnimationFrame(animate);
         }
-
         animate();
     </script>
 </body>
